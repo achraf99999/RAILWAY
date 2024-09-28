@@ -1,1 +1,1 @@
-web: gunicorn image_noise_project.wsgi
+web: gunicorn image_noise_project.wsgi --bind 0.0.0.0:34177
