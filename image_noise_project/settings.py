@@ -37,7 +37,7 @@ ENCRYPT_KEY = env('ENCRYPT_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVIRONMENT == 'development':
+if ENVIRONMENT == 'production':
    DEBUG = True
 else:
    DEBUG = False
