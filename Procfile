@@ -1,1 +1,1 @@
-web: gunicorn image_noise_project.wsgi
+web: gunicorn image_noise_project.wsgi:application --bind 0.0.0.0:$8000
