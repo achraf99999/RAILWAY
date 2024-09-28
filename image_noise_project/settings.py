@@ -16,11 +16,9 @@ import environ
 
 from environ import Env
 
-env = environ.Env()
-
-environ.Env.read_env()
-
-ENVIRONMENT = env("DEVELOPMENT", default = "production")
+env = Env ()
+Env.read_env()
+ENVIRONMENT = env('ENVIRONMENT', default='production')
 # Feature Toggle
 DEVELOPER = env('DEVELOPER', default='')
 STAGING = env('STAGING', default='False')
@@ -46,7 +44,7 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['']
 
 INTERNAL_IPS = (
 '127.0.0.1',
@@ -65,18 +63,20 @@ INSTALLED_APPS = [
 
 
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+MIDDLEWARE = ['django.contrib.sessions.middleware.SessionMiddleware',
 
-
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-
-
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+'django.middleware.security.SecurityMiddleware',
+'whitenoise.middleware.WhiteNoiseMiddleware',
+'django. contrib.sessions.middleware. SessionMiddleware',
+'django.middleware. common. CommonMiddleware',
+'django.middleware. csrf.CsrfViewMiddleware',
+'django. contrib.auth.middleware.AuthenticationMiddleware',
+'django. contrib.messages.middleware.MessageMiddleware',
+'django.middleware.clickjacking.XFrameOptionsMiddleware',
+'django_htmx.middleware.HtmxMiddleware',
+'a_landingpages.middleware. landingpage_middleware'
 ]
 
 ROOT_URLCONF = 'image_noise_project.urls'
@@ -97,6 +97,10 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+'django. contrib.auth.backends.ModelBackend',
+'allauth.account.auth_backends. AuthenticationBackend',]
+
 WSGI_APPLICATION = 'image_noise_project.wsgi.application'
 
 
@@ -113,6 +117,7 @@ DATABASES = {
 POSTGRES_LOCALLY = True
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
    DATABASES ['default'] = dj_database_url.parse(env('DATABASE_URL' )) 
+   print(f"DATABASE_URL: {env('DATABASE_URL')}")  # Debug print to verify URL
 
 
 # Password validation
