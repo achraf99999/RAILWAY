@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn myappname.wsgi
+web: gunicorn image_noise_project.wsgi
