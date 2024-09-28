@@ -15,7 +15,6 @@ import dj_database_url
 import environ
 from environ import Env
 import os
-
 env = Env ()
 Env.read_env()
 ENVIRONMENT = env('ENVIRONMENT', default='production')
@@ -36,6 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 ENCRYPT_KEY = env('ENCRYPT_KEY')
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 if ENVIRONMENT == 'development':
    DEBUG = True
@@ -44,8 +44,9 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =[ ]
+ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', '' ]
 
+CSRF_TRUSTED_ORIGINS = [ '' ]
 INTERNAL_IPS = (
 '127.0.0.1',
 'loca lhost: 8000')
@@ -108,11 +109,13 @@ WSGI_APPLICATION = 'image_noise_project.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+     'default': {
+'ENGINE': 'django.db.backends.sqlite3',
+'NAME': BASE_DIR / 'db.sqlite3',}
 }
 
 
-POSTGRES_LOCALLY = True
+POSTGRES_LOCALLY = False
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
    DATABASES ['default'] = dj_database_url.parse(env('DATABASE_URL' )) 
    print(f"DATABASE_URL: {env('DATABASE_URL')}")  # Debug print to verify URL
