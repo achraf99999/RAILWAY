@@ -4,6 +4,7 @@ dataclasses==0.6
 dj-database-url==2.2.0
 Django==5.1.1
 django-environ==0.11.2
+django-htmx==1.19.0
 djongo==1.2.31
 dnspython==2.6.1
 gunicorn==23.0.0
