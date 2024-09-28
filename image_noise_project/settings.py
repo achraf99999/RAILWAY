@@ -49,7 +49,7 @@ ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', 'railway-production-18fb.up.railway.
 CSRF_TRUSTED_ORIGINS = [ 'https://railway-production-18fb.up.railway.app' ]
 INTERNAL_IPS = (
 '127.0.0.1',
-'loca lhost: 8080')
+'loca lhost: 8000')
 # Application definition
 
 INSTALLED_APPS = [
