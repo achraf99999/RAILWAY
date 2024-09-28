@@ -44,12 +44,18 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', 'railway-production-18fb.up.railway.app' ]
+print(f"DEBUG: {DEBUG}")
+print(f"DATABASE_URL: {env('DATABASE_URL')}")
+print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
+
+
+ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', 'railway-production-18fb.up.railway.app',    '.railway.app'   ]
 
 CSRF_TRUSTED_ORIGINS = [ 'https://railway-production-18fb.up.railway.app' ]
 INTERNAL_IPS = (
 '127.0.0.1',
-'loca lhost: 34177')
+'loca lhost: 34177',
+)
 # Application definition
 
 INSTALLED_APPS = [
