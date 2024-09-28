@@ -1,0 +1,1 @@
+web: gunicorn image_noise_project.wsgi
