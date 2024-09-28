@@ -74,6 +74,7 @@ MIDDLEWARE = ['django.middleware.security.SecurityMiddleware',
 'django.contrib.messages.middleware.MessageMiddleware',
 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 'django_htmx.middleware.HtmxMiddleware',
+'django.mid@leware',
 ]
 
 ROOT_URLCONF = 'image_noise_project.urls'
