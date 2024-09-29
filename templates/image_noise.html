@@ -64,6 +64,15 @@
         .btn-secondary:hover {
             background-color: #4a5568;
         }
+        .form-group {
+            display: flex;
+            flex-direction: column; /* Aligne les éléments en colonne */
+            align-items: flex-start; /* Aligne à gauche */
+        }
+        
+        .form-control-file {
+            margin-top: 0.5rem; /* Ajoute un petit espace entre le label et le bouton */
+        }
     </style>
 </head>
 
@@ -80,10 +89,10 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="image">Télécharger une image :</label>
-                        <input type="file" name="image" id="image" required accept="image/*" class="form-control-file" onchange="previewImage(event)">
-                        <button type="button" id="addNoiseButton" class="btn btn-primary btn-block btn-custom">Ajouter du bruit</button>
-                    
+                        <input type="file" name="image" id="image" required accept="image/*" class="form-control-file mt-2" onchange="previewImage(event)">
                     </div>
+                    <button type="button" id="addNoiseButton" class="btn btn-primary btn-block btn-custom">Ajouter du bruit</button>
+
                     
                 </form>
                 
@@ -118,9 +127,8 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="enhanceImage">Télécharger une image :</label>
-                        <input type="file" id="enhanceImage" name="image" accept="image/*" required class="form-control-file">
+                        <input type="file" id="enhanceImage" name="image" accept="image/*" required class="form-control-file mt-2">
                     </div>
-                </form>
                 <img id="uploadedImage" style="display:none;" alt="Uploaded Image" class="img-fluid mb-3">
                 <button id="transformButton" type="button" class="btn btn-primary btn-custom" style="display:none;">Transformer l'image</button>
                 <img id="uploadedEnhanceImage" class="img-fluid mb-3" alt="Image Améliorée" style="display:none;">
