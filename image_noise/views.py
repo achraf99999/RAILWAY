@@ -5,6 +5,12 @@ import io
 from django.http import HttpResponse
 import base64
 import json  
+import numpy as np
+import cv2
+import os
+from django.http import JsonResponse
+from PIL import UnidentifiedImageError
+from io import BytesIO
 
 
 def resize_image(image, size=(400, 400)):
@@ -41,6 +47,70 @@ def add_strong_noise_to_image(image):
                                 max(0, min(255, g + noise)),
                                 max(0, min(255, b + noise)))
     return image
+
+
+
+# Function for super-resolution
+import numpy as np
+import cv2
+import base64
+from PIL import Image
+from django.http import JsonResponse
+import logging
+
+# Configure logging
+logger = logging.getLogger(__name__)
+
+def super_resolution_view(request):
+    if request.method == 'POST':
+        uploaded_image = request.FILES.get('image')
+
+        if uploaded_image:
+            try:
+                # Log the received file
+                logger.info("Received image: %s", uploaded_image.name)
+
+                # Convert uploaded image to OpenCV format using PIL
+                image = Image.open(uploaded_image)
+                image = image.convert('RGB')  # Ensure RGB format
+                img_array = np.array(image)
+
+                logger.info("Image shape: %s", img_array.shape)
+
+                # Resize the image if it's too large
+                max_height = 1080  # Set a max height
+                max_width = 1920   # Set a max width
+                height, width = img_array.shape[:2]
+
+                if height > max_height or width > max_width:
+                    scaling_factor = min(max_height / height, max_width / width)
+                    new_dimensions = (int(width * scaling_factor), int(height * scaling_factor))
+                    img_array = cv2.resize(img_array, new_dimensions)
+
+                logger.info("Resized image shape: %s", img_array.shape)
+
+                # Apply Non-Local Means (NLM) denoising for color images
+                enhanced_image = cv2.fastNlMeansDenoisingColored(img_array, None, 10, 10, 7, 21)
+
+                # Convert the result back to PIL format to return as base64
+                enhanced_image_pil = Image.fromarray(cv2.cvtColor(enhanced_image, cv2.COLOR_BGR2RGB))
+                buffer = BytesIO()
+                enhanced_image_pil.save(buffer, format="PNG")
+                super_res_image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+                # Return JSON response with the enhanced image
+                return JsonResponse({'super_res_image_base64': super_res_image_base64})
+
+            except Exception as e:
+                logger.error("Error processing image: %s", e, exc_info=True)  # Log full traceback
+                return JsonResponse({'error': 'Error processing image'}, status=500)
+
+    # If no image or wrong method, return an error response
+    return JsonResponse({'error': 'No image uploaded or invalid request method'}, status=400)
+
+
+
+
 
 def image_noise_view(request):
     original_image_base64 = None
@@ -86,3 +156,6 @@ def image_noise_view(request):
         'original_image_base64': original_image_base64,
         'noisy_image_base64': noisy_image_base64,
     })
+
+
+
