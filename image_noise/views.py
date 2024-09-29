@@ -11,7 +11,13 @@ import os
 from django.http import JsonResponse
 from PIL import UnidentifiedImageError
 from io import BytesIO
-
+# Function for super-resolution
+import numpy as np
+import cv2
+import base64
+from PIL import Image
+from django.http import JsonResponse
+import logging
 
 def resize_image(image, size=(400, 400)):
     return image.resize(size)
@@ -50,13 +56,7 @@ def add_strong_noise_to_image(image):
 
 
 
-# Function for super-resolution
-import numpy as np
-import cv2
-import base64
-from PIL import Image
-from django.http import JsonResponse
-import logging
+
 
 # Configure logging
 logger = logging.getLogger(__name__)
